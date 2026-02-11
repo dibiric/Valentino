@@ -86,10 +86,7 @@
         background-color: #28a745;
         color: white;
         transition: transform 0.3s;
-    }
-
-    #yesBtn:hover {
-        transform: scale(1.1);
+        transform: scale(1); /* dimensione iniziale */
     }
 
     #noBtn {
@@ -124,14 +121,20 @@
 </div>
 
 <script>
-/* ----------- BOTTONE NO ----------- */
+/* ----------- BOTTONE NO E SÌ ----------- */
 const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
 let hoverCount = 0;
-const maxMoves = 5;
+const maxMoves = 15;
+
+let yesScale = 1; // dimensione iniziale del SI
+const scaleStep = 0.05; // quanto cresce ad ogni hover
 
 noBtn.addEventListener("mouseenter", () => {
     hoverCount++;
 
+    // 1️⃣ Sposta NO casualmente
     if (hoverCount > maxMoves) {
         noBtn.style.display = "none";
         return;
@@ -145,10 +148,13 @@ noBtn.addEventListener("mouseenter", () => {
 
     noBtn.style.left = Math.random() * maxX + "px";
     noBtn.style.top = Math.random() * maxY + "px";
+
+    // 2️⃣ Aumenta progressivamente SI
+    yesScale += scaleStep;
+    yesBtn.style.transform = `scale(${yesScale})`;
 });
 
 /* ----------- CAMBIO PAGINA SÌ ----------- */
-const yesBtn = document.getElementById("yesBtn");
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 
