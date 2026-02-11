@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentino 💘</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        height: 100vh;
+        overflow: hidden;
+        color: white;
+    }
+
+    /* ----------- CASCATA DI TRICHECHI ----------- */
+    #walrus-rain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .walrus {
+        position: absolute;
+        top: -100px;
+        opacity: 0.8;
+        animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(120vh);
+        }
+    }
+
+    /* ----------- PAGINE ----------- */
+    .page {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .page.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    img {
+        width: 250px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+    }
+
+    .buttons {
+        position: relative;
+        height: 80px;
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    #yesBtn {
+        background-color: #28a745;
+        color: white;
+        transition: transform 0.3s;
+    }
+
+    #yesBtn:hover {
+        transform: scale(1.1);
+    }
+
+    #noBtn {
+        background-color: #dc3545;
+        color: white;
+        position: fixed;
+        transition: left 0.2s ease, top 0.2s ease;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- SFONDO -->
+<div id="walrus-rain"></div>
+
+<!-- PAGINA 1 -->
+<div id="page1" class="page active">
+    <h1>Vuoi essere il/la mio/a Valentino/a? ❤️</h1>
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmFwNjB6YTZwemViN2M2N3hmdWhtazA5dTBldzlvOTQ1Ynp4bnQ1MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e9MwdstmbYrhC/giphy.gif">
+    <div class="buttons">
+        <button id="yesBtn">SÌ</button>
+        <button id="noBtn">NO</button>
+    </div>
+</div>
+
+<!-- PAGINA 2 -->
+<div id="page2" class="page">
+    <h1>Sapevo avresti detto di si ❤️</h1>
+    <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NTBsam1wOW50eDVhYWY3NHJuMWpid3YxajZvdno0NW9rY3hubWNlaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jfuPz0YEmpMQg/giphy.gif">
+</div>
+
+<script>
+/* ----------- BOTTONE NO ----------- */
+const noBtn = document.getElementById("noBtn");
+let hoverCount = 0;
+const maxMoves = 5;
+
+noBtn.addEventListener("mouseenter", () => {
+    hoverCount++;
+
+    if (hoverCount > maxMoves) {
+        noBtn.style.display = "none";
+        return;
+    }
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = document.documentElement.clientWidth - btnWidth;
+    const maxY = document.documentElement.clientHeight - btnHeight;
+
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+});
+
+/* ----------- CAMBIO PAGINA SÌ ----------- */
+const yesBtn = document.getElementById("yesBtn");
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+
+yesBtn.addEventListener("click", () => {
+    page1.classList.remove("active");
+    page2.classList.add("active");
+});
+
+/* ----------- CASCATA DI TRICHECHI ----------- */
+const walrusContainer = document.getElementById("walrus-rain");
+const walrusSrc = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExam0xNW9kYmt5Y2k1Y25pZW4zNHp6OWF1djRobmZvcW9tb3VwbjdmaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/XCPnjIUMT06ek/giphy.gif";
+
+function createWalrus() {
+    const walrus = document.createElement("img");
+    walrus.src = walrusSrc;
+    walrus.classList.add("walrus");
+
+    const size = Math.random() * 60 + 40;
+    walrus.style.width = size + "px";
+    walrus.style.left = Math.random() * window.innerWidth + "px";
+
+    const duration = Math.random() * 5 + 5;
+    walrus.style.animationDuration = duration + "s";
+
+    walrusContainer.appendChild(walrus);
+
+    setTimeout(() => walrus.remove(), duration * 1000);
+}
+
+setInterval(createWalrus, 400);
+</script>
+
+</body>
+</html>
